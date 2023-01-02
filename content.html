@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    {{ template "header.html" }}
     <h1>Cursos</h1>
 
     <table>
@@ -20,12 +12,12 @@
             {{ range . }}
                 {{ if eq .Numero 0 }}
                     <tr>
-                        <td>{{ .Nome }}</td>
+                        <td>{{ .Nome | toUpper }}</td>
                         <td>{{ .Numero }}</td>
                     </tr>
                 {{ end }}
             {{ end }}
         </tbody>
     </table>
-</body>
-</html>
+    {{ template "footer.html" }}
+

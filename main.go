@@ -1,8 +1,9 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
-	"text/template"
+	"strings"
 )
 
 type Estudo struct {
@@ -12,9 +13,22 @@ type Estudo struct {
 
 type Estudos []Estudo
 
+func ToUpper(s string) string {
+	return strings.ToUpper(s)
+}
+
 func main() {
+
+	templates := []string{
+		"header.html",
+		"content.html",
+		"footer.html",
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		t := template.Must(template.New("template.html").ParseFiles("template.html"))
+		t := template.New("content.html")
+		t.Funcs(template.FuncMap{"toUpper": ToUpper})
+		t = template.Must(t.ParseFiles(templates...))
 		err := t.Execute(w, Estudos{
 			{"Go", 0},
 			{"Node", 1},
