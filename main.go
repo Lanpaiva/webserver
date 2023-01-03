@@ -19,13 +19,17 @@ func ToUpper(s string) string {
 
 func main() {
 
+	http.HandleFunc("/", HttpHandle)
+	http.ListenAndServe(":8990", nil)
+}
+
+func HttpHandle(w http.ResponseWriter, r *http.Request) {
 	templates := []string{
 		"header.html",
 		"content.html",
 		"footer.html",
 	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	{
 		t := template.New("content.html")
 		t.Funcs(template.FuncMap{"toUpper": ToUpper})
 		t = template.Must(t.ParseFiles(templates...))
@@ -37,6 +41,5 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-	})
-	http.ListenAndServe(":8990", nil)
+	}
 }
